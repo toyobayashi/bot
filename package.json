@@ -1,0 +1,20 @@
+{
+  "name": "bot",
+  "version": "0.0.1",
+  "description": "QQ bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "pm2 start ./index.js --name=bot",
+    "stop": "pm2 stop bot",
+    "restart": "pm2 restart bot"
+  },
+  "keywords": ["qq", "robot"],
+  "author": "toyobayashi",
+  "license": "MIT",
+  "dependencies": {
+    "@koa/router": "^8.0.8",
+    "got": "^10.7.0",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.3.0"
+  }
+}
