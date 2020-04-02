@@ -10,7 +10,7 @@ $ cd ./bot
 
 $ npm install
 
-$ vi ./config.js
+$ npm install -g pm2
 
 $ npm start
 ```
