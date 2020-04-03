@@ -4,6 +4,7 @@ const { randomAccess, parseMessage, parsePrivateMessage } = require('./util.js')
 const Bot = require('./bot.js')
 
 const getSetu = require('./setu.js')
+const trsl = require('./trsl.js')
 
 async function main (args, isGroup) {
   console.log(args)
@@ -30,6 +31,14 @@ async function main (args, isGroup) {
     }
   }
 
+  if (Object.keys(trsl).includes(args[1])) {
+    const reply = await trsl[args[1]](args[2] || '')
+    return {
+      reply,
+      at_sender: false
+    }
+  }
+
   return {
     reply: randomAccess(msg.error),
     at_sender: false
@@ -45,7 +54,7 @@ bot.on('message-discuss', async (event) => {
   if ((isarr && discussGroups.includes(event.discuss_id)) || !arr) {
     const cmd = parseMessage(event.message)
     if (cmd.reply) {
-      const resbody = await main(cmd.args, false)
+      const resbody = await main(cmd.args, true)
       return resbody
     } else {
       return {}
