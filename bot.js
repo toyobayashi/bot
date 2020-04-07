@@ -17,8 +17,12 @@ class Bot {
         ctx.response.body = await Promise.resolve(this._call('message-discuss', event))
       } else if (event.post_type === 'message' && event.message_type === 'private') {
         ctx.response.body = await Promise.resolve(this._call('message-private', event))
+      } else if (event.post_type === 'message' && event.message_type === 'group') {
+        ctx.response.body = await Promise.resolve(this._call('message-group', event))
       } else if (event.post_type === 'request' && event.request_type === 'friend') {
         ctx.response.body = await Promise.resolve(this._call('request-friend', event))
+      } else if (event.post_type === 'request' && event.request_type === 'group') {
+        ctx.response.body = await Promise.resolve(this._call('request-group', event))
       } else {
         ctx.response.body = await Promise.resolve(this._call('default-post', event))
       }

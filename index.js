@@ -51,7 +51,24 @@ const bot = new Bot(config)
 bot.on('message-discuss', async (event) => {
   const discussGroups = config.allow ? config.allow.discussGroups : null
   const isarr = Array.isArray(discussGroups)
-  if ((isarr && discussGroups.includes(event.discuss_id)) || !arr) {
+  if ((isarr && discussGroups.includes(event.discuss_id)) || !isarr) {
+    const cmd = parseMessage(event.message)
+    if (cmd.reply) {
+      const resbody = await main(cmd.args, true)
+      return resbody
+    } else {
+      return {}
+    }
+  } else {
+    return {}
+  }
+})
+
+// 群消息
+bot.on('message-group', async (event) => {
+  const groups = config.allow ? config.allow.groups : null
+  const isarr = Array.isArray(groups)
+  if ((isarr && groups.includes(event.group_id)) || !isarr) {
     const cmd = parseMessage(event.message)
     if (cmd.reply) {
       const resbody = await main(cmd.args, true)
@@ -79,8 +96,23 @@ bot.on('message-private', async (event) => {
 bot.on('request-friend', (event) => {
   const requestFriends = config.allow ? config.allow.requestFriends : null
   const isarr = Array.isArray(requestFriends)
-  if ((isarr && requestFriends.includes(event.user_id)) || !arr) {
+  if ((isarr && requestFriends.includes(event.user_id)) || !isarr) {
     return { approve: true }
+  } else {
+    return {}
+  }
+})
+
+// 群邀请请求
+bot.on('request-group', (event) => {
+  if (event.sub_type === 'invite') {
+    const groups = config.allow ? config.allow.groups : null
+    const isarr = Array.isArray(groups)
+    if ((isarr && groups.includes(event.group_id)) || !isarr) {
+      return { approve: true }
+    } else {
+      return {}
+    }
   } else {
     return {}
   }
